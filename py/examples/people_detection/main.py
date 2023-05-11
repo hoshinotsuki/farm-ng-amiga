@@ -45,13 +45,19 @@ class AmigaCamera(Component):
     def _decode_image(self, image_data: bytes) -> np.ndarray:
         image: np.ndarray = np.frombuffer(image_data, dtype="uint8")
         image = cv2.imdecode(image, cv2.IMREAD_UNCHANGED)
+        scale_percent =60
+        width = int(image.shape[1]*scale_percent/100)
+        height = int(image.shape[0]*scale_percent/100)
+        dim = (width,height)
+
+        image = cv2.resize(image,dim)
         return image
 
     async def forward(self) -> ComponentState:
         response = await self.stream.read()
         frame: oak_pb2.OakSyncFrame = response.frame
 
-        await self.outputs.image.send(self._decode_image(frame.left.image_data))
+        await self.outputs.image.send(self._decode_image(frame.rgb.image_data))
 
         return ComponentState.OK
 
@@ -120,6 +126,7 @@ class Visualization(Component):
             )
 
         cv2.namedWindow("image", cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('image', 1300, 800)
         cv2.imshow("image", image_vis)
         cv2.waitKey(1)
 

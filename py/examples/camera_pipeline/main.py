@@ -17,7 +17,7 @@ import cv2
 import kornia as K
 import numpy as np
 from farm_ng.oak.camera_client import OakCameraClient
-from farm_ng.oak.camera_client import OakCameraClientConfig
+#from farm_ng.oak.camera_client import OakCameraClientConfig
 from limbus.core import Component
 from limbus.core import ComponentState
 from limbus.core import Params

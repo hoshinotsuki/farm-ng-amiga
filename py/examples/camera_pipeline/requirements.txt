@@ -1,0 +1,7 @@
+wheel
+PyTurboJPEG
+opencv-python
+kornia
+farm_ng_amiga
+limbus
+asyncio
