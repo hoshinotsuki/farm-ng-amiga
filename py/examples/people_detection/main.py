@@ -1,16 +1,3 @@
-# Copyright (c) farm-ng, inc.
-#
-# Licensed under the Amiga Development Kit License (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     https://github.com/farm-ng/amiga-dev-kit/blob/main/LICENSE
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 import argparse
 import asyncio
 from typing import List
@@ -34,7 +21,6 @@ class AmigaCamera(Component):
         super().__init__(name)
         # configure the camera client
         self.client = OakCameraClient(config)
-
         # create a stream
         self.stream = self.client.stream_frames(every_n=stream_every_n)
 
@@ -118,7 +104,6 @@ class Visualization(Component):
 
     async def forward(self) -> ComponentState:
         image, detections = await asyncio.gather(self.inputs.image.receive(), self.inputs.detections.receive())
-
         image_vis = image.copy()
         for det in detections:
             image_vis = cv2.rectangle(
@@ -126,10 +111,9 @@ class Visualization(Component):
             )
 
         cv2.namedWindow("image", cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('image', 1300, 800)
+        cv2.resizeWindow('image', 1280, 800)
         cv2.imshow("image", image_vis)
         cv2.waitKey(1)
-
 
 async def main(config_camera: ClientConfig, config_detector: ClientConfig) -> None:
 
